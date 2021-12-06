@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'org.kankuhr'
+version 'Release'
+
+repositories {
+    mavenCentral()
+    maven{
+        url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+dependencies {
+    implementation 'net.dv8tion:JDA:5.0.0-alpha.1'
+    implementation 'com.sedmelluq:lavaplayer:1.3.77'
+}
+
+task uberJar(type: Jar) {
+    manifest {
+        attributes["Main-Class"] = "MessageListener"
+    }
+    archiveClassifier = 'uber'
+    duplicatesStrategy = 'exclude'
+    from sourceSets.main.output
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
