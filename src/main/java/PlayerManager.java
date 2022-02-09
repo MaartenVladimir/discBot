@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 public class PlayerManager {
     private static PlayerManager INSTANCE;
@@ -34,7 +35,10 @@ public class PlayerManager {
             return guildMusicManager;
         });
     }
-
+    public Queue<AudioTrack> getQueue(TextChannel channel){
+        final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
+        return musicManager.scheduler.queue;
+    }
     public void loadAndPlay(TextChannel channel, String trackUrl, boolean wasPlaylist){
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
