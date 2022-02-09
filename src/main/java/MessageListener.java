@@ -332,6 +332,7 @@ public class MessageListener extends ListenerAdapter {
        int i = 1;
        for(AudioTrack track : q){
             ret += "`" + i + " " + track.getInfo().title + " by " + track.getInfo().author + "`\n";
+            i++;
        }
        return ret;
     }
