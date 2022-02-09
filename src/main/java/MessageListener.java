@@ -103,6 +103,7 @@ public class MessageListener extends ListenerAdapter {
                         "`-stop : clears queue`\n" +
                         "`-dc : disconnects the bot`\n" +
                         "`-? : returns current song name`\n" +
+                        "`-q/-queue : shows the current queue`\n" +
                         "`-skip : skips the current song`").queue();
             }
             if(event.getMessage().getContentRaw().toLowerCase().contains("-q") || event.getMessage().getContentRaw().toLowerCase().contains("-queue")){
