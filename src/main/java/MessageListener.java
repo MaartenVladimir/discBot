@@ -229,6 +229,23 @@ public class MessageListener extends ListenerAdapter {
                 return;
 
             }
+            if(event.getMessage().getContentRaw().toLowerCase().contains("-pause")){
+                Member self = event.getGuild().getSelfMember();
+                GuildVoiceState selfVoiceState = self.getVoiceState();
+                if(message.getMember().equals(event.getGuild().getSelfMember())){
+                    return;
+                }
+                final Member member = message.getMember();
+                final GuildVoiceState memberVoiceState = member.getVoiceState();
+
+                if(!memberVoiceState.inAudioChannel()){
+                    return;
+                }
+                if(!member.getVoiceState().inAudioChannel()){
+                    return;
+                }
+                PlayerManager.getInstance().pauseBot(message.getTextChannel());
+            }
             if(event.getMessage().getContentRaw().toLowerCase().contains("-play") || event.getMessage().getContentRaw().toLowerCase().contains("-p")){
                  
                 Member self = event.getGuild().getSelfMember();

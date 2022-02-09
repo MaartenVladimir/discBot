@@ -35,6 +35,11 @@ public class PlayerManager {
         });
     }
 
+    public void pauseBot(TextChannel channel){
+        final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
+        musicManager.scheduler.pause();
+    }
+
     public void loadAndPlay(TextChannel channel, String trackUrl, boolean wasPlaylist){
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
