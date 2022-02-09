@@ -100,11 +100,11 @@ public class MessageListener extends ListenerAdapter {
                 event.getMessage().reply("`-join : joins your current vc`\n" +
                         "`-play <song> / <link> : plays a song from youtube`\n" +
                         "`-stop : clears queue`\n" +
-                        "`!dc : disconnects the bot`\n" +
+                        "`-dc : disconnects the bot`\n" +
                         "`-? : returns current song name`\n" +
                         "`-skip : skips the current song`").queue();
             }
-            if(event.getMessage().getContentRaw().toLowerCase().contains("!dc")){
+            if(event.getMessage().getContentRaw().toLowerCase().contains("-dc")){
                 Member self = event.getGuild().getSelfMember();
                 Member member = event.getMember();
 
@@ -122,8 +122,6 @@ public class MessageListener extends ListenerAdapter {
                     return;
                 }
                 audioManager.closeAudioConnection();
-                message.reply(":(");
-
                 return;
             }
             if(event.getMessage().getContentRaw().toLowerCase().contains("-join")){
@@ -242,7 +240,6 @@ public class MessageListener extends ListenerAdapter {
                 final GuildVoiceState memberVoiceState = member.getVoiceState();
 
                 if(!memberVoiceState.inAudioChannel()){
-                    message.reply("go into  a voice channel fucking dumbass").queue();
                     return;
                 }
                 if(!member.getVoiceState().inAudioChannel()){
