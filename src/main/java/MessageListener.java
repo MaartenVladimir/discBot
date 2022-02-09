@@ -102,6 +102,7 @@ public class MessageListener extends ListenerAdapter {
                         "`-stop : clears queue`\n" +
                         "`-dc : disconnects the bot`\n" +
                         "`-? : returns current song name`\n" +
+                        "`-tp : toggles pause/play`\n" +
                         "`-skip : skips the current song`").queue();
             }
             if(event.getMessage().getContentRaw().toLowerCase().contains("-dc")){
@@ -228,6 +229,30 @@ public class MessageListener extends ListenerAdapter {
                 message.reply("Now playing: " + info.title + " from: " + info.author).queue();
                 return;
 
+            }
+            if(event.getMessage().getContentRaw().toLowerCase().contains("-tp")){
+                Member self = event.getGuild().getSelfMember();
+                GuildVoiceState selfVoiceState = self.getVoiceState();
+                if(message.getMember().equals(event.getGuild().getSelfMember())){
+                    return;
+                }
+                final Member member = message.getMember();
+                final GuildVoiceState memberVoiceState = member.getVoiceState();
+
+                if(!memberVoiceState.inAudioChannel()){
+                    return;
+                }
+                if(!member.getVoiceState().inAudioChannel()){
+                    return;
+                }
+                boolean state = PlayerManager.getInstance().pauseBot(message.getTextChannel());
+                if(state){
+                    message.reply("Music is now paused").queue();
+                }
+                else{
+                    message.reply("Music is now resumed").queue();
+                }
+                return;
             }
             if(event.getMessage().getContentRaw().toLowerCase().contains("-play") || event.getMessage().getContentRaw().toLowerCase().contains("-p")){
                  
