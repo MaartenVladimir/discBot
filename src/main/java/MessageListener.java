@@ -229,7 +229,7 @@ public class MessageListener extends ListenerAdapter {
                 return;
 
             }
-            if(event.getMessage().getContentRaw().toLowerCase().contains("-pause")){
+            if(event.getMessage().getContentRaw().toLowerCase().contains("-tp")){
                 Member self = event.getGuild().getSelfMember();
                 GuildVoiceState selfVoiceState = self.getVoiceState();
                 if(message.getMember().equals(event.getGuild().getSelfMember())){
@@ -244,7 +244,14 @@ public class MessageListener extends ListenerAdapter {
                 if(!member.getVoiceState().inAudioChannel()){
                     return;
                 }
-                PlayerManager.getInstance().pauseBot(message.getTextChannel());
+                boolean state = PlayerManager.getInstance().pauseBot(message.getTextChannel());
+                if(state){
+                    message.reply("Music is now paused").queue();
+                }
+                else{
+                    message.reply("Music is now resumed").queue();
+                }
+                return;
             }
             if(event.getMessage().getContentRaw().toLowerCase().contains("-play") || event.getMessage().getContentRaw().toLowerCase().contains("-p")){
                  

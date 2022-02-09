@@ -21,9 +21,10 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
-    public void pause(){
+    public boolean pause(){
         this.player.setPaused(!isPaused);
         this.isPaused = !this.isPaused;
+        return this.isPaused;
     }
 
     public void nextTrack(){
