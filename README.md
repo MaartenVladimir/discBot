@@ -1,6 +1,9 @@
-# discBot
-Music bot for discord
+# Discord bot for playing music
+This is a discord bot created to play music after groovy was removed due to pressure from youtube.
 
-Desperatley needs refactoring to adhere to the OOP spirit
+## Required for building
+* Gradle
+* latest Java JDK
 
-Fully functional, except for some supressed warnings and possible null-pointer ecxeption around the discord "inVoiceChannel / getVoiceChannel" methods
+## Contributors
+* MrMModder
