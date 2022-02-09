@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Queue;
 
 
 public class MessageListener extends ListenerAdapter {
@@ -102,8 +103,30 @@ public class MessageListener extends ListenerAdapter {
                         "`-stop : clears queue`\n" +
                         "`-dc : disconnects the bot`\n" +
                         "`-? : returns current song name`\n" +
+                        "`-q/-queue : shows the current queue`\n" +
                         "`-tp : toggles pause/play`\n" +
                         "`-skip : skips the current song`").queue();
+            }
+            if(event.getMessage().getContentRaw().toLowerCase().contains("-q") || event.getMessage().getContentRaw().toLowerCase().contains("-queue")){
+                Member self = event.getGuild().getSelfMember();
+                Member member = event.getMember();
+
+                final GuildVoiceState selfVoiceState = self.getVoiceState();
+
+                if(message.getMember().equals(event.getGuild().getSelfMember())){
+                    return;
+                }
+                if(!self.getVoiceState().inAudioChannel()){
+                    message.reply("Nah bro").queue();
+                    return;
+                }
+                Queue<AudioTrack> q = PlayerManager.getInstance().getQueue(message.getTextChannel());
+                if(q.isEmpty()){
+                    message.reply("Queue is empty").queue();
+                }
+                else{
+                    message.reply(qToString(q)).queue();
+                }
             }
             if(event.getMessage().getContentRaw().toLowerCase().contains("-dc")){
                 Member self = event.getGuild().getSelfMember();
@@ -213,7 +236,6 @@ public class MessageListener extends ListenerAdapter {
                     return;
                 }
                 final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(self.getGuild());
-//
                 final AudioPlayer audioPlayer = musicManager.audioPlayer;
                 if(audioPlayer.getPlayingTrack() == null){
                     message.reply("Nothing to skip dumbass").queue();
@@ -304,6 +326,14 @@ public class MessageListener extends ListenerAdapter {
                         .loadAndPlay(message.getTextChannel(), link, wasPlaylist);
             }
         }
+    }
+    public static String qToString(Queue<AudioTrack> q){
+       String ret = "";
+       int i = 1;
+       for(AudioTrack track : q){
+            ret += "`" + i + " " + track.getInfo().title + " by " + track.getInfo().author + "`\n";
+       }
+       return ret;
     }
     public static boolean isUrl(String url){
         try{
