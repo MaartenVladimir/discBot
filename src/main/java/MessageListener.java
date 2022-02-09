@@ -102,6 +102,7 @@ public class MessageListener extends ListenerAdapter {
                         "`-stop : clears queue`\n" +
                         "`-dc : disconnects the bot`\n" +
                         "`-? : returns current song name`\n" +
+                        "`-tp : toggles pause/play`\n" +
                         "`-skip : skips the current song`").queue();
             }
             if(event.getMessage().getContentRaw().toLowerCase().contains("-dc")){
