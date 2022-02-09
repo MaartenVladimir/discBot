@@ -303,8 +303,9 @@ public class MessageListener extends ListenerAdapter {
     }
     public static String qToString(Queue<AudioTrack> q){
        String ret = "";
+       int i = 1;
        for(AudioTrack track : q){
-            ret += "`" + track.getInfo().title + " by " + track.getInfo().author + "`\n";
+            ret += "`" + i + " " + track.getInfo().title + " by " + track.getInfo().author + "`\n";
        }
        return ret;
     }
