@@ -89,7 +89,37 @@ public class MessageListener extends ListenerAdapter {
                 message.reply("Now playing: " + info.title + " from: " + info.author).queue();
                 return;
             }
+            if(event.getMessage().getContentRaw().toLowerCase().contains("-v")){
+                Member self = event.getGuild().getSelfMember();
+                GuildVoiceState selfVoiceState = self.getVoiceState();
+                if(message.getMember().equals(event.getGuild().getSelfMember())){
+                    return;
+                }
+                final Member member = message.getMember();
+                final GuildVoiceState memberVoiceState = member.getVoiceState();
 
+                if(!memberVoiceState.inAudioChannel()){
+                    return;
+                }
+                if(!member.getVoiceState().inAudioChannel()){
+                    return;
+                }
+                String[] content = event.getMessage().getContentRaw().split(" ");
+                if(content.length == 0){
+                    message.reply("I need more info than that dumbass").queue();
+                    return;
+                }
+                String vol = content[1];
+                int volume;
+                try {
+                    volume = Integer.parseInt(vol);
+                } catch (NumberFormatException e){
+                    return;
+                }
+                int res = PlayerManager.getInstance()
+                             .setVolume(message.getTextChannel() , volume);
+                message.reply("`Volume now set to: " + res + " `").queue();
+            }
             if(event.getMessage().getContentRaw().toLowerCase().contains("-help")) {
                  
                 final Member self = event.getGuild().getSelfMember();

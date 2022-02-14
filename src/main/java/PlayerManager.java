@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+import javax.xml.soap.Text;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,12 @@ public class PlayerManager {
         return musicManager.scheduler.queue;
     }
 
-
+    //Takes integer value (0,150) inclusive
+    public int setVolume(TextChannel channel, int vol){
+        final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
+        musicManager.audioPlayer.setVolume(vol);
+        return musicManager.audioPlayer.getVolume();
+    }
     public boolean pauseBot(TextChannel channel){
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
         return musicManager.scheduler.pause();
