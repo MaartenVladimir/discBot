@@ -29,7 +29,7 @@ public class MessageListener extends ListenerAdapter {
     private AudioSendHandler audioSender;
 
     public static void main(String[] args) {
-        String token = "OTE2MzYzOTU3MDU5NjAwMzk0.GuW9Z-.0ufT9Ec5T0ThapDp1kxjYuUajcqShDMZrYYLf8";
+        String token = args[0]; //replace with token
 
         JDA builder = JDABuilder.createDefault(token).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
         builder.addEventListener(new MessageListener());
