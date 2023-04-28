@@ -6,9 +6,13 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+
 import javax.security.auth.login.LoginException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -25,15 +29,10 @@ public class MessageListener extends ListenerAdapter {
     private AudioSendHandler audioSender;
 
     public static void main(String[] args) {
-        String token = args[1];
+        String token = "OTE2MzYzOTU3MDU5NjAwMzk0.GuW9Z-.0ufT9Ec5T0ThapDp1kxjYuUajcqShDMZrYYLf8";
 
-        try{
-            JDA builder = JDABuilder.createDefault(token).build();
-            builder.addEventListener(new MessageListener());
-        }
-        catch (LoginException e){
-            e.printStackTrace();
-        }
+        JDA builder = JDABuilder.createDefault(token).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
+        builder.addEventListener(new MessageListener());
     }
 
     public void sendPrivateMessage(User user, String content) {
@@ -120,7 +119,7 @@ public class MessageListener extends ListenerAdapter {
                     message.reply("Nah bro").queue();
                     return;
                 }
-                Queue<AudioTrack> q = PlayerManager.getInstance().getQueue(message.getTextChannel());
+                Queue<AudioTrack> q = PlayerManager.getInstance().getQueue(message.getChannel().asTextChannel());
                 if(q.isEmpty()){
                     message.reply("Queue is empty").queue();
                 }
@@ -267,7 +266,7 @@ public class MessageListener extends ListenerAdapter {
                 if(!member.getVoiceState().inAudioChannel()){
                     return;
                 }
-                boolean state = PlayerManager.getInstance().pauseBot(message.getTextChannel());
+                boolean state = PlayerManager.getInstance().pauseBot(message.getChannel().asTextChannel());
                 if(state){
                     message.reply("Music is now paused").queue();
                 }
@@ -323,7 +322,7 @@ public class MessageListener extends ListenerAdapter {
                     wasPlaylist = false;
                 }
                 PlayerManager.getInstance()
-                        .loadAndPlay(message.getTextChannel(), link, wasPlaylist);
+                        .loadAndPlay(message.getChannel().asTextChannel(), link, wasPlaylist);
             }
         }
     }
